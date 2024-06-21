@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo pacman -Syu
 # add nerdfonts for neovim and configure kitty
 
