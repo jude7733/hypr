@@ -11,8 +11,8 @@ makepkg -si
 cd ~
 rm -rf yay
 yay -S wlogout
-
-sudo pacman -S ccmake wireplumbler lxappearance nwg-look arc-gtk-theme adapta-gtk-theme breeze-gtk thunar adwaita-icon-theme arc-icon-theme ristretto
+yay -S bibata-cursor-theme-bin
+sudo pacman -S ccmake alacritty wireplumbler lxappearance nwg-look arc-gtk-theme adapta-gtk-theme breeze-gtk thunar adwaita-icon-theme arc-icon-theme ristretto
 
 # notification daemon 
 sudo pacman -S swaync
