@@ -12,7 +12,7 @@ cd ~
 rm -rf yay
 yay -S wlogout
 yay -S bibata-cursor-theme-bin
-sudo pacman -S ccmake alacritty wireplumbler lxappearance nwg-look arc-gtk-theme adapta-gtk-theme breeze-gtk thunar adwaita-icon-theme arc-icon-theme ristretto
+sudo pacman -S zsh cmake alacritty wireplumbler lxappearance ngw-look arc-gtk-theme adapta-gtk-theme breeze-gtk thunar adwaita-icon-theme arc-icon-theme ristretto pavucontrol zathura zathura-pdf-poppler
 
 # notification daemon 
 sudo pacman -S swaync
@@ -20,19 +20,17 @@ sudo pacman -S swaync
 # clipboard
 sudo pacman -S cliphist
 
-# Hyprland Desktop Portal
-pacman -S xdg-desktop-portal-hyprland
-
 # authentication agent
 sudo pacman -S polkit-kde-agent
 
-# Qt Wayland Support 
-sudo pacman -S qt5-wayland qt6-wayland
-
 # hyprland plugins and packages
-sudo pacman -S cpio meson hyprpaper hyprshot waybar hypridle hyprlock
+sudo pacman -S cpio meson hyprpaper waybar hypridle hyprlock
+yay -S hyprshot 
 
+# nvim
+sudo pacman -S neovim ripgrep lazygit btop
 # enable packages
+# sudo pacman -S hyprwayland-scanner
 hyprpm update
 hyprpm add https://github.com/hyprwm/hyprland-plugins
 hyprpm enable hyprexpo
