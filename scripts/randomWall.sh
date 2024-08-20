@@ -28,9 +28,13 @@ if [ -d "$directory" ]; then
         random_background=$(printf "%s\n" "${available_wallpapers[@]}" | shuf -n 1)
 
         # Unload and set the new wallpaper
-        hyprctl hyprpaper unload all
-        hyprctl hyprpaper preload "$random_background"
-        hyprctl hyprpaper wallpaper "VGA-1, $random_background"
+        # hyprctl hyprpaper unload all && sleep 1 &&
+        # hyprctl hyprpaper preload "$random_background" &&
+        # hyprctl hyprpaper wallpaper "VGA-1, $random_background" &&
+        echo "Setting wallpaper to $random_background" 
+        swww img "$random_background" --transition-type outer &
+        wal -i "$random_background"
+        pkill waybar && waybar &
 
         # Add the selected wallpaper to the used file
         echo "$random_background" >> "$used_wallpapers_file"
