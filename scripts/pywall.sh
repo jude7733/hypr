@@ -5,8 +5,7 @@ wallpaper="$1"
 sleep 2 && echo -e "\nGenerating ${bold}pywal colorscheme from $wallpaper" &&
 wal --cols16 -i "$wallpaper" && xrdb -merge ~/.cache/wal/colors.Xresources &
 
-sleep 3 && echo -e "\nSetting colors for ${bold}btop" &&
-yes | cp -v ~/.cache/wal/colors-btop.theme ~/.config/btop/themes && pkill btop && 
+sleep 3 && echo -e "\nSetting colors for ${bold}btop" && pkill btop && 
 hyprctl dispatch exec '[workspace 4 silent] kitty --title "btop" -e "btop"' &
 
 sleep 3 && echo -e "\nSetting colors for ${bold}waybar" &&
