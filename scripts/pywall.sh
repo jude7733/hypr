@@ -13,3 +13,7 @@ killall cava && kitty -c ~/.config/kitty/kittybg.conf --detach --class='kitty-bg
 
 sleep 4 && echo -e "\nSetting colors for ${bold}swaync" &&
 killall swaync && swaync &
+
+bash ~/.config/hypr/scripts/battery.sh &
+
+pgrep -x "waybar" > /dev/null || waybar &
