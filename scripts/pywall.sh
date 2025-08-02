@@ -2,7 +2,7 @@
 
 wallpaper="$1"
 
-sleep 2 && echo -e "\nGenerating ${bold}pywal colorscheme from $wallpaper" &&
+sleep 2 && echo -e "\nGenerating pywal colorscheme from $wallpaper" &&
   wal --cols16 -n -i "$wallpaper" && xrdb -merge ~/.cache/wal/colors.Xresources &
 
 # sleep 3 && echo -e "\nSetting colors for ${bold}btop" && pkill btop &&
@@ -11,6 +11,6 @@ sleep 2 && echo -e "\nGenerating ${bold}pywal colorscheme from $wallpaper" &&
 # sleep 4 && echo -e "\nSetting colors for ${bold}cava" &&
 #   killall cava && kitty -c ~/.config/kitty/kittybg.conf --detach --class='kitty-bg' ~/.config/hypr/scripts/cava.sh &
 
-bash ~/.config/hypr/scripts/battery.sh &
+sleep 3 && hyprctl reload
 
 pgrep -x "waybar" >/dev/null || waybar &
