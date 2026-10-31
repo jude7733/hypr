@@ -30,6 +30,14 @@ hl.monitor({
 	scale = "1",
 })
 
+-- Fallback for any other connected display
+hl.monitor({
+	output = "",
+	mode = "preferred",
+	position = "auto",
+	scale = 1,
+})
+
 -----------------------
 -- ### AUTOSTART ### --
 -----------------------
@@ -44,8 +52,8 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("sleep 2 && kdeconnect-indicator & hyprsunset &")
 	hl.exec_cmd("batsignal -b -w 25 -c 15 -d 10 -f 79 -p &")
 	hl.exec_cmd("dbus-update-activation-environment --systemd HYPRLAND_INSTANCE_SIGNATURE")
-	hl.exec_cmd("wl-paste --type text --watch cliphist store")
-	hl.exec_cmd("wl-paste --type image --watch cliphist store")
+	hl.exec_cmd("wl-paste --type text --watch cliphist store &")
+	hl.exec_cmd("wl-paste --type image --watch cliphist store &")
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 end)
 

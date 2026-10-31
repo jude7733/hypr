@@ -102,6 +102,20 @@ hl.window_rule({
 	workspace = 4,
 })
 
+-- Fix XWayland drag-and-drop issues
+hl.window_rule({
+	name = "fix-xwayland-drags",
+	match = {
+		class = "^$",
+		title = "^$",
+		xwayland = true,
+		float = true,
+		fullscreen = false,
+		pin = false,
+	},
+	no_focus = true,
+})
+
 ---------------------------
 -- ### WORKSPACE RULES ###
 ---------------------------
@@ -148,6 +162,6 @@ hl.workspace_rule({
 })
 
 hl.workspace_rule({
-	workspace = "special:scratchpad",
-	on_created_empty = "foot",
+	workspace = "special:magic",
+	on_created_empty = "kitty",
 })

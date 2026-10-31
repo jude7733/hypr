@@ -62,13 +62,14 @@ hl.bind("CTRL + ALT + H", hl.dsp.focus({ workspace = "e-1" }))
 
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ workspace = "e+1" }))
 hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ workspace = "e-1" }))
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ workspace = "e-1" }))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ workspace = "e+1" }))
+hl.bind("CTRL + ALT + SHIFT + H", hl.dsp.window.move({ workspace = "e-1" }))
+hl.bind("CTRL + ALT + SHIFT + L", hl.dsp.window.move({ workspace = "e+1" }))
 
 -- Cycle tabs
-hl.bind("ALT + TAB", hl.dsp.window.cycle_next())
-hl.bind("ALT + TAB", hl.dsp.layout("cyclenext"))
-hl.bind("ALT + TAB", hl.dsp.window.bring_to_top())
+hl.bind("ALT + TAB", function()
+	hl.dispatch("cyclenext")
+	hl.dispatch("bringactivetotop")
+end)
 
 -- Workspace Overview (Hyprexpo)
 hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("hyprctl dispatch hyprexpo:expo toggle"))

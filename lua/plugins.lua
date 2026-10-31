@@ -64,7 +64,7 @@ hl.config({
 			},
 		},
 
-		["dynamic-cursors"] = {
+		dynamic_cursors = {
 			enabled = true,
 			mode = "stretch",
 			threshold = 2,
