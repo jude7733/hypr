@@ -66,14 +66,17 @@ hl.bind("CTRL + ALT + SHIFT + H", hl.dsp.window.move({ workspace = "e-1" }))
 hl.bind("CTRL + ALT + SHIFT + L", hl.dsp.window.move({ workspace = "e+1" }))
 
 -- Cycle tabs
-hl.bind("ALT + TAB", function()
-	hl.dispatch(hl.dsp.window.cycle_next())
+local function cycle_tabs(forward)
+	local win = hl.get_active_window()
+	local is_monocle = win and win.layout and win.layout.name == "monocle"
+
+	hl.dispatch(is_monocle and hl.dsp.layout(forward and "cyclenext" or "cycleprev")
+		or hl.dsp.window.cycle_next({ next = forward }))
 	hl.dispatch(hl.dsp.window.bring_to_top())
-end)
-hl.bind("ALT + SHIFT + TAB", function()
-	hl.dispatch(hl.dsp.window.cycle_next({ next = false }))
-	hl.dispatch(hl.dsp.window.bring_to_top())
-end)
+end
+
+hl.bind("ALT + TAB", function() cycle_tabs(true) end)
+hl.bind("ALT + SHIFT + TAB", function() cycle_tabs(false) end)
 
 -- Workspace Overview (Hyprspace)
 hl.bind(mainMod .. " + TAB", function()
