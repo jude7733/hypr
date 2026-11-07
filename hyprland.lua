@@ -43,18 +43,20 @@ hl.monitor({
 -----------------------
 
 hl.on("hyprland.start", function()
+	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+	hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+
+	-- Core daemons
 	hl.exec_cmd("waybar &")
-	hl.exec_cmd("swaync & /usr/lib/polkit-kde-authentication-agent-1 &")
+	hl.exec_cmd("swaync & (systemctl --user start hyprpolkitagent 2>/dev/null || /usr/lib/hyprpolkitagent 2>/dev/null || /usr/lib/polkit-kde-authentication-agent-1) &")
 	hl.exec_cmd("awww-daemon & waypaper --restore & hypridle &")
 	hl.exec_cmd("nm-applet --indicator &")
 	hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 22 &")
 	hl.exec_cmd("hyprpm reload -n &")
 	hl.exec_cmd("sleep 2 && kdeconnect-indicator & hyprsunset &")
 	hl.exec_cmd("batsignal -b -w 25 -c 15 -d 10 -f 79 -p &")
-	hl.exec_cmd("dbus-update-activation-environment --systemd HYPRLAND_INSTANCE_SIGNATURE")
 	hl.exec_cmd("wl-paste --type text --watch cliphist store &")
 	hl.exec_cmd("wl-paste --type image --watch cliphist store &")
-	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 end)
 
 -----------------------------------
@@ -82,6 +84,8 @@ hl.env("GTK_THEME", "Materia-dark-compact")
 hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("SDL_VIDEODRIVER", "wayland,x11")
 hl.env("CLUTTER_BACKEND", "wayland")
+hl.env("LIBVA_DRIVER_NAME", "iHD")
+hl.env("MOZ_ENABLE_WAYLAND", "1")
 
 ---------------------------
 -- ### LOOK AND FEEL ### --
@@ -120,8 +124,11 @@ hl.config({
 		dim_strength = 0.1,
 		blur = {
 			enabled = true,
-			size = 4,
-			passes = 3,
+			size = 5,
+			passes = 2,
+			new_optimizations = true,
+			ignore_opacity = true,
+			xray = false,
 			vibrancy = 0.1696,
 		},
 		shadow = {
@@ -144,6 +151,18 @@ hl.config({
 		touchpad = {
 			natural_scroll = true,
 		},
+	},
+
+	misc = {
+		vrr = 1,
+		disable_hyprland_logo = true,
+		disable_splash_rendering = true,
+		animate_manual_resizes = false,
+		animate_mouse_windowdragging = false,
+	},
+
+	render = {
+		direct_scanout = true,
 	},
 })
 

@@ -70,13 +70,19 @@ local function cycle_tabs(forward)
 	local win = hl.get_active_window()
 	local is_monocle = win and win.layout and win.layout.name == "monocle"
 
-	hl.dispatch(is_monocle and hl.dsp.layout(forward and "cyclenext" or "cycleprev")
-		or hl.dsp.window.cycle_next({ next = forward }))
+	hl.dispatch(
+		is_monocle and hl.dsp.layout(forward and "cyclenext" or "cycleprev")
+			or hl.dsp.window.cycle_next({ next = forward })
+	)
 	hl.dispatch(hl.dsp.window.bring_to_top())
 end
 
-hl.bind("ALT + TAB", function() cycle_tabs(true) end)
-hl.bind("ALT + SHIFT + TAB", function() cycle_tabs(false) end)
+hl.bind("ALT + TAB", function()
+	cycle_tabs(true)
+end)
+hl.bind("ALT + SHIFT + TAB", function()
+	cycle_tabs(false)
+end)
 
 -- Workspace Overview (Hyprspace)
 hl.bind(mainMod .. " + TAB", function()
@@ -113,6 +119,7 @@ hl.bind(mainMod .. " + SHIFT + mouse:274", hl.dsp.exec_cmd("hyprctl keyword curs
 hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m window"))
 hl.bind(mainMod .. " + F12", hl.dsp.exec_cmd("hyprshot -m window"))
 hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m output"))
+-- hl.bind("F12", hl.dsp.exec_cmd("hyprshot -m output"))
 hl.bind(mainMod .. " + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region"))
 hl.bind(mainMod .. " + SHIFT + F12", hl.dsp.exec_cmd("hyprshot -m region"))
 hl.bind(mainMod .. " + ALT + PRINT", hl.dsp.exec_cmd("~/.config/hypr/scripts/ss-share.sh"))
