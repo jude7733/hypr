@@ -52,7 +52,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("awww-daemon & waypaper --restore & hypridle &")
 	hl.exec_cmd("nm-applet --indicator &")
 	hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 22 &")
-	hl.exec_cmd("hyprpm reload -n &")
+	hl.exec_cmd("~/.config/hypr/scripts/hyprfocus-init.sh &")
 	hl.exec_cmd("sleep 2 && kdeconnect-indicator & hyprsunset &")
 	hl.exec_cmd("batsignal -b -w 25 -c 15 -d 10 -f 79 -p &")
 	hl.exec_cmd("wl-paste --type text --watch cliphist store &")
@@ -122,6 +122,14 @@ hl.config({
 		inactive_opacity = 0.8,
 		dim_inactive = true,
 		dim_strength = 0.1,
+		dim_special = 0.3,
+		dim_modal = true,
+	wobble = {
+		enabled = true,
+		stiffness = 180,
+		damping = 18,
+		mass = 1.0,
+	},
 		blur = {
 			enabled = true,
 			size = 5,
@@ -130,6 +138,9 @@ hl.config({
 			ignore_opacity = true,
 			xray = false,
 			vibrancy = 0.1696,
+			popups = true,
+			popups_ignorealpha = 0.6,
+			special = true,
 		},
 		shadow = {
 			enabled = true,
@@ -157,7 +168,7 @@ hl.config({
 		vrr = 1,
 		disable_hyprland_logo = true,
 		disable_splash_rendering = true,
-		animate_manual_resizes = false,
+		animate_manual_resizes = true,
 		animate_mouse_windowdragging = false,
 	},
 
@@ -166,39 +177,44 @@ hl.config({
 	},
 })
 
--- Curves
-hl.curve("wind", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1.05 } } })
-hl.curve("winIn", { type = "bezier", points = { { 0.1, 1.1 }, { 0.1, 1.1 } } })
-hl.curve("winOut", { type = "bezier", points = { { 0.3, -0.3 }, { 0, 1 } } })
-hl.curve("liner", { type = "bezier", points = { { 1, 1 }, { 1, 1 } } })
+-------------------------
+-- ### ANIMATIONS ### --
+-------------------------
 
--- New Curves & Springs
-hl.curve("snappy", { type = "spring", mass = 1, stiffness = 100, dampening = 15 })
-hl.curve("overshot", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1.1 } } })
-hl.curve("smoothIn", { type = "bezier", points = { { 0.25, 1 }, { 0.5, 1 } } })
-hl.curve("smoothOut", { type = "bezier", points = { { 0.36, 0 }, { 0.66, -0.56 } } })
+-- Curves & Springs
+hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
+hl.curve("quickSnap", { type = "bezier", points = { { 0.16, 1 }, { 0.3, 1 } } })
+hl.curve("overshot", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1.05 } } })
+hl.curve("fastClose", { type = "bezier", points = { { 0.3, 0 }, { 0.7, 0.15 } } })
+hl.curve("snappy", { type = "spring", mass = 1, stiffness = 300, damping = 26 })
+hl.curve("bouncy", { type = "spring", mass = 1, stiffness = 260, damping = 19 })
 
--- New Animations
-hl.animation({ leaf = "windows", enabled = true, speed = 5, spring = "snappy", style = "slide" })
-hl.animation({ leaf = "windowsIn", enabled = true, speed = 5, bezier = "overshot", style = "slide" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 5, bezier = "smoothOut", style = "slide" })
-hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, spring = "snappy", style = "slide" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "overshot", style = "slidefade 20%" })
-hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 5, bezier = "overshot", style = "slidefadevert 10%" })
-hl.animation({ leaf = "border", enabled = true, speed = 1, bezier = "liner" })
-hl.animation({ leaf = "borderangle", enabled = true, speed = 30, bezier = "liner" })
-hl.animation({ leaf = "fade", enabled = true, speed = 8, bezier = "smoothIn" })
+-- Windows (Fast, tactile popin on open; instant collapse on close)
+hl.animation({ leaf = "windows", enabled = true, speed = 3.2, spring = "snappy" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 3.0, spring = "bouncy", style = "popin 85%" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.8, bezier = "fastClose", style = "popin 80%" })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 3.2, spring = "snappy" })
 
--- Previous Animations (Uncomment to restore)
--- hl.animation({ leaf = "windows", enabled = true, speed = 5, bezier = "wind", style = "slide" })
--- hl.animation({ leaf = "windowsIn", enabled = true, speed = 5, bezier = "winIn", style = "slide" })
--- hl.animation({ leaf = "windowsOut", enabled = true, speed = 4, bezier = "winOut", style = "slide" })
--- hl.animation({ leaf = "windowsMove", enabled = true, speed = 4, bezier = "wind", style = "slide" })
--- hl.animation({ leaf = "border", enabled = true, speed = 1, bezier = "liner" })
--- hl.animation({ leaf = "borderangle", enabled = true, speed = 30, bezier = "liner" })
--- hl.animation({ leaf = "fade", enabled = true, speed = 8, bezier = "default" })
--- hl.animation({ leaf = "workspaces", enabled = true, speed = 4, bezier = "wind" })
--- hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 6, bezier = "default", style = "slidefadevert -50%" })
+-- Fade & Focus transitions
+hl.animation({ leaf = "fadeIn", enabled = true, speed = 2.5, bezier = "quickSnap" })
+hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.8, bezier = "fastClose" })
+hl.animation({ leaf = "fadeSwitch", enabled = true, speed = 2.0, bezier = "quickSnap" })
+hl.animation({ leaf = "fade", enabled = true, speed = 2.5, bezier = "quickSnap" })
+
+-- Layers (Launchers, SwayNC, Wofi, Waybar popups)
+hl.animation({ leaf = "layers", enabled = true, speed = 3.0, spring = "snappy" })
+hl.animation({ leaf = "layersIn", enabled = true, speed = 2.8, spring = "bouncy", style = "popin 85%" })
+hl.animation({ leaf = "layersOut", enabled = true, speed = 1.8, bezier = "fastClose", style = "popin 85%" })
+
+-- Workspaces
+hl.animation({ leaf = "workspaces", enabled = true, speed = 3.0, spring = "snappy", style = "slidefade 20%" })
+
+-- Scratchpad (Special Workspace)
+hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 3.2, spring = "bouncy", style = "slidefadevert 15%" })
+
+-- Borders
+hl.animation({ leaf = "border", enabled = true, speed = 2.0, bezier = "linear" })
+hl.animation({ leaf = "borderangle", enabled = true, speed = 25, bezier = "linear", style = "loop" })
 
 --------------------
 -- ### DEVICE ### --

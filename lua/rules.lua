@@ -83,6 +83,7 @@ for _, app in ipairs(float_apps) do
 		name = "float-" .. (app.class or app.title),
 		match = app,
 		float = true,
+		center = true,
 	})
 end
 
