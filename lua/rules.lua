@@ -150,7 +150,6 @@ hl.workspace_rule({
 
 hl.workspace_rule({
 	workspace = 5,
-	on_created_empty = "firefox",
 	layout = "scrolling",
 })
 
@@ -162,7 +161,17 @@ hl.workspace_rule({
 	layout = "monocle",
 })
 
-hl.workspace_rule({
-	workspace = "special:magic",
-	on_created_empty = "kitty",
-})
+local empty_workspace_apps = {
+	["5"] = "firefox",
+	["special:magic"] = "kitty",
+}
+
+hl.on("workspace.created", function(ws)
+	if not ws.is_empty then
+		return
+	end
+	local app = empty_workspace_apps[ws.name] or empty_workspace_apps[tostring(ws.id)]
+	if app then
+		hl.exec_cmd(app)
+	end
+end)
